@@ -27,14 +27,14 @@
  * Ultrasonic ultrasonic(13);
  */
 Ultrasonic ultrasonic1(2);
-Ultrasonic ultrasonic2(18);
+Ultrasonic ultrasonic2(5);
 Ultrasonic ultrasonic3(19);
 int distance1, distance2, distance3;
 
 const IPAddress ip(192, 168, 3, 7);
 const IPAddress gateway(192, 168, 3, 1);
 const IPAddress subnet(255, 255, 255, 0);
-const char* host = "192.168.3.63";
+const char* host = "192.168.3.6";
 
 void setup() {
   M5.begin();
