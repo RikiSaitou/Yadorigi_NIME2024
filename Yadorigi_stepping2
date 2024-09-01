@@ -1,0 +1,61 @@
+#include <M5Stack.h>
+#include <Arduino.h>
+#include <ArduinoOSCWiFi.h>
+
+const uint8_t A=16;
+const uint8_t B=17;
+const uint8_t C=2;
+const uint8_t D=5;
+
+const IPAddress ip(192, 168, 3, 12);
+const IPAddress gateway(192, 168, 3, 1);
+const IPAddress subnet(255, 255, 255, 0);
+
+int dy=0;
+
+void setup() {
+  M5.begin();
+  M5.Power.begin();
+  Serial.begin(9600);
+  M5.Speaker.write(0); // スピーカーをオフする
+  M5.Lcd.fillScreen(BLACK);
+  M5.Lcd.setTextColor(WHITE , BLACK);
+  M5.Lcd.setTextSize(3);
+  pinMode(A, OUTPUT);
+  pinMode(B, OUTPUT);
+  pinMode(C, OUTPUT);
+  pinMode(D, OUTPUT);
+
+  WiFi.begin("5C6199C256EB-2G", "d58apfs8d4c2r0");
+  WiFi.config(ip, gateway, subnet);
+
+  OscWiFi.subscribe(6670, "/door", dy);
+}
+
+void loop() {
+  M5.update();
+  OscWiFi.update();
+
+  if (dy >= 0) 
+  {
+       digitalWrite(A, HIGH);digitalWrite(B, LOW);digitalWrite(C, LOW);digitalWrite(D, LOW);
+       delay(dy);
+       digitalWrite(A, LOW);digitalWrite(B, HIGH);digitalWrite(C, LOW);digitalWrite(D, LOW);
+       delay(dy);
+       digitalWrite(A, LOW);digitalWrite(B, LOW);digitalWrite(C, HIGH);digitalWrite(D, LOW);
+       delay(dy);
+       digitalWrite(A, LOW);digitalWrite(B, LOW);digitalWrite(C, LOW);digitalWrite(D, HIGH);
+       delay(dy);
+  }
+  else if (dy < 0) 
+  {
+       digitalWrite(A, LOW);digitalWrite(B, LOW);digitalWrite(C, LOW);digitalWrite(D, HIGH);
+       delay(-dy);
+       digitalWrite(A, LOW);digitalWrite(B, LOW);digitalWrite(C, HIGH);digitalWrite(D, LOW);
+       delay(-dy);
+       digitalWrite(A, LOW);digitalWrite(B, HIGH);digitalWrite(C, LOW);digitalWrite(D, LOW);
+       delay(-dy);
+       digitalWrite(A, HIGH);digitalWrite(B, LOW);digitalWrite(C, LOW);digitalWrite(D, LOW);
+       delay(-dy);
+  }   
+}
