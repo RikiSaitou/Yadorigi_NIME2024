@@ -41,7 +41,7 @@ void backupMotion()
   verticalServo.write(random(180));
   horizontalServo.write(random(180));
 
-  delay(random(10000));
+  delay(random(500, 5000));
 }
 
 void loop() {
